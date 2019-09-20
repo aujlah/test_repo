@@ -1,0 +1,63 @@
+---
+title: "CANSIM Data Test"
+date: "Date produced:`r date()`"
+output: html_document
+runtime: shiny
+---
+
+**Part 1**
+Load in the required R packages:
+```{r, message=FALSE, warning=FALSE}
+#install.packages(pkgs=c('cansim','shiny','rmarkdown','ggplot2','DataExplorer'))
+library(cansim)
+library(shiny)
+library(rmarkdown)
+library(ggplot2)
+library(DataExplorer)
+```
+
+**Part 2**
+Load "Health characteristics, annual estimates, by household income quintile and highest level of education" CANSIM data:
+```{r}
+data<-get_cansim("107-0001")
+```
+
+**Part 3**
+Exploratory data analysis:
+``{r}
+DataExplorer::create_report(data)
+``
+
+```{r}
+headers<-colnames(data)
+```
+
+**Part 4**
+Data year(s)
+```{r echo=FALSE}
+checkboxGroupInput("datayr", "",
+             choices = c("2015", "2016", "2017", "2018")
+)
+
+filtered_data<-reactive({
+  return(data[data$REF_DATE%in%input$datayr,])
+})
+```
+
+##Histogram:
+Choose a variable:
+x-axis
+```{r echo=FALSE}
+selectInput("xhist", "",
+             choices = headers
+)
+```
+
+See plot:
+```{r echo=FALSE}
+renderPlot({
+  ggplot(filtered_data(),aes_string(x=input$xhist)) +
+  geom_histogram()
+})
+```
+

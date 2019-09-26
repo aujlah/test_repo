@@ -61,3 +61,125 @@ renderPlot({
 })
 ```
 
+##Box Plot:
+Choose variables:
+x-axis
+```{r echo=FALSE}
+selectInput("xbox", "",
+             choices = headers
+            )
+```
+
+y-axis
+```{r echo=FALSE}
+selectInput("ybox", "",
+             choices = headers
+            )
+```
+
+See plot:
+```{r echo=FALSE}
+renderPlot({
+  ggplot(filtered_data(), aes_string(x=input$xbox, y=input$ybox)) +
+  geom_boxplot()
+})
+```
+
+##Violin Plot:
+Choose variables:
+x-axis
+```{r echo=FALSE}
+selectInput("xvio", "",
+             choices = headers
+            )
+```
+
+y-axis
+```{r echo=FALSE}
+selectInput("yvio", "",
+             choices = headers
+            )
+```
+
+See plot:
+```{r echo=FALSE}
+renderPlot({
+  ggplot(filtered_data(), aes_string(x=input$xvio, y=input$yvio)) +
+  geom_violin()
+})
+```
+
+##Bar Graph:
+Choose variables:
+
+x-axis
+```{r echo=FALSE}
+selectInput("xbar", "",
+             choices = headers
+            )
+```
+
+color - split by
+```{r echo=FALSE}
+selectInput("ybar", "",
+             choices = headers
+            )
+```
+
+plots - split by
+```{r echo=FALSE}
+selectInput("zbar", "",
+             choices = headers
+            )
+```
+
+See plot:
+```{r echo=FALSE}
+renderPlot({
+  ggplot(filtered_data(), aes_string(x=input$xbar, color=input$ybar)) +
+  geom_bar()+
+  facet_wrap(~get(input$zbar))
+})
+```
+
+##Point Plot:
+Choose variables:
+
+x-axis
+```{r echo=FALSE}
+selectInput("xpoint", "",
+             choices = headers
+            )
+```
+
+y-axis
+```{r echo=FALSE}
+selectInput("ypoint", "",
+             choices = headers
+            )
+```
+
+color - split by
+```{r echo=FALSE}
+selectInput("zpoint", "",
+             choices = headers
+            )
+```
+
+plots - split by
+```{r echo=FALSE}
+selectInput("wpoint", "",
+             choices = headers
+            )
+```
+
+See plot:
+```{r echo=FALSE}
+renderPlot({
+  ggplot(filtered_data(), aes_string(x=input$xpoint, y=input$ypoint, color=input$zpoint))+
+  geom_point()+
+  facet_wrap(~get(input$wpoint))
+})
+```
+
+update sept 26
